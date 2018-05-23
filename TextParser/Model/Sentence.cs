@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace TextParser.Model
 {
@@ -22,9 +24,24 @@ namespace TextParser.Model
             _sentenceItems.AddRange(sentenceItems);
         }
 
+        public IEnumerable<ISentenceItem> AllSentenceItemsAsEnumerable()
+        {
+            return _sentenceItems.AsEnumerable();
+        }
+
         public ISentenceItem GetSentenceItem(int index)
         {
             return _sentenceItems.ElementAt(index);
+        }
+
+        public new string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < _sentenceItems.Count; i++)
+            {
+                builder.Append(_sentenceItems.ElementAt(i).Chars);
+            }
+            return builder.ToString();
         }
     }
 }

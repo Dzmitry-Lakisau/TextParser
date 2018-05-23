@@ -3,5 +3,6 @@
     public interface ISentenceItem
     {
         string Chars { get; }
+        int GetLength();
     }
 }

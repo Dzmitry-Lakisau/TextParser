@@ -9,5 +9,7 @@ namespace TextParser.Model
         void AddSentenceItemsRange(IEnumerable<ISentenceItem> sentenceItems);
 
         ISentenceItem GetSentenceItem(int index);
+
+        IEnumerable<ISentenceItem> AllSentenceItemsAsEnumerable();
     }
 }

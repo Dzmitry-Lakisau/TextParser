@@ -41,9 +41,9 @@ namespace TextParser.Model
             return _symbols.GetEnumerator();
         }
 
-//        public int Length
-//        {
-//            get { return (_symbols != null) ? _symbols.Length: 0; }
-//        }
+        public int GetLength()
+        {
+            return (_symbols != null) ? _symbols.Length : 0;
+        }
     }
 }

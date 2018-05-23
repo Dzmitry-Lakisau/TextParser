@@ -1,4 +1,6 @@
-﻿namespace TextParser.Model
+﻿using System.Collections.Generic;
+
+namespace TextParser.Model
 {
     public interface ILine
     {
@@ -9,5 +11,7 @@
         Sentence GetSentence(int index);
 
         ISentenceItem GetSentenceSeparator(int index);
+
+        IEnumerable<Sentence> AllSentencesAsEnumerable();
     }
 }

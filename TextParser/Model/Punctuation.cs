@@ -9,6 +9,11 @@
             get { return Value.Chars; }
         }
 
+        public int GetLength()
+        {
+            return Value.Chars.Length;
+        }
+
         public Punctuation(string chars)
         {
             Value = new Symbol(chars);
