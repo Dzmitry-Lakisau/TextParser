@@ -78,7 +78,41 @@ namespace TextParser
             {
                 Console.WriteLine("Exception occured: {0}", exception.Message);
             }
-            
+
+            //Из текста удалить все слова заданной длины, начинающиеся на согласную букву.
+            Console.WriteLine("Enter length of words:");
+            input = Console.ReadLine();
+
+            try
+            {
+                Text text2 = new Text();
+
+                length = Int32.Parse(input);
+
+                foreach (Line line in text.Lines)
+                {
+                    Line lineToOutput = new Line();
+                    char[] vowels = { 'e', 'y', 'u', 'i', 'o', 'a' };
+
+                    IEnumerable sentences = line.AllSentencesAsEnumerable();
+                    foreach (Sentence sentence in sentences)
+                    {
+                        Sentence sentenceToOutput = new Sentence();
+                        sentenceToOutput.AddSentenceItemsRange(sentence.AllSentenceItemsAsEnumerable().
+                            Where(i => i.GetLength() != length || (i.GetLength() == length && i.Chars.IndexOfAny(vowels) == 0)));
+                        lineToOutput.AddSentence(sentenceToOutput);
+                    }
+
+                    text2.Lines.Add(lineToOutput);
+                }
+
+                Console.WriteLine("Words with length {0} that begins with consonant were deleted", length);
+            }
+            catch (SystemException exception)
+            {
+                Console.WriteLine("Exception occured: {0}", exception.Message);
+            }
+
             Console.ReadLine();
         }
     }
