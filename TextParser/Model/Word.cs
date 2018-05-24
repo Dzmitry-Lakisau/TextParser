@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -44,6 +45,34 @@ namespace TextParser.Model
         public int GetLength()
         {
             return (_symbols != null) ? _symbols.Length : 0;
+        }
+
+        public override bool Equals(object other)
+        {
+            if (Object.ReferenceEquals(other, null)) return false;
+            
+            if (Object.ReferenceEquals(this, other)) return true;
+            
+            return this.GetHashCode().Equals(other.GetHashCode());
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                if (_symbols == null)
+                {
+                    return 0;
+                }
+
+                int hash = 17;
+                foreach (Symbol symbol in _symbols)
+                {
+                    hash = hash * 31 + ((int) symbol.Chars.GetHashCode());
+                }
+
+                return hash;
+            }
         }
     }
 }
