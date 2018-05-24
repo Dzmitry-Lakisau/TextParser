@@ -43,6 +43,12 @@ namespace TextParser
             return text;
         }
 
+        public Sentence Parse(string source)
+        {
+            _sentenceItemFactory = new SentenceItemFactory(PunctuationFactory, WordFactory);
+            return ParseSentence(source);
+        }
+
         private Line ParseLine(string source)
         {
             Line line = new Line();
@@ -57,9 +63,7 @@ namespace TextParser
                         return sentenceSeparatorOccurence >= 0;
                     });
                 
-                line.AddSentence(ParseSentence(source.Substring(0, sentenceSeparatorOccurence)));
-                line.AddSentenceSeparator(_sentenceItemFactory.Create(
-                        source.Substring(sentenceSeparatorOccurence, sentenceSeparator.Length)));
+                line.AddSentence(ParseSentence(source.Substring(0, sentenceSeparatorOccurence + sentenceSeparator.Length)));
 
                 source = source.Remove(0, sentenceSeparatorOccurence + sentenceSeparator.Length);
             }
