@@ -62,12 +62,12 @@ namespace TextParser
             {
                 length = Int32.Parse(input);
 
-                allSentencesAsEnumerable =
-                    text.Lines.SelectMany(l => l.AllSentencesAsEnumerable()).Where(s => s.ToString().EndsWith("?"));
-                foreach (Sentence s in allSentencesAsEnumerable)
+                IEnumerable filteredSentences = text.Lines.SelectMany(l => l.AllSentencesAsEnumerable()).Where(s => s.ToString().EndsWith("?"));
+
+                foreach (Sentence s in filteredSentences)
                 {
                     IEnumerable filteredWords = s.AllSentenceItemsAsEnumerable().Where(i => i.GetType() == typeof(Word))
-                        .Where(w => w.GetLength() == length);
+                        .Where(w => w.GetLength() == length).Distinct();
 
                     foreach (Word word in filteredWords)
                     {
