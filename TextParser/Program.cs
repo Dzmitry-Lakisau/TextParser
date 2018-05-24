@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -107,6 +108,57 @@ namespace TextParser
                 }
 
                 Console.WriteLine("Words with length {0} that begins with consonant were deleted", length);
+            }
+            catch (SystemException exception)
+            {
+                Console.WriteLine("Exception occured: {0}", exception.Message);
+            }
+
+            //В некотором предложении текста слова заданной длины заменить указанной подстрокой, длина которой может не совпадать с длиной слова.
+            Console.WriteLine("Enter number of sentence:");
+            string inputNumberOfSentence = Console.ReadLine();
+            Console.WriteLine("Enter length of words:");
+            string inputLength = Console.ReadLine();
+            Console.WriteLine("Input replacement string:");
+            string replacementString = Console.ReadLine();
+
+            try
+            {
+                Sentence resultingSentence = new Sentence();
+                Parser parser = new Parser();
+                Sentence replacement = parser.Parse(replacementString);
+
+                int numberOfSentence = Int32.Parse(inputNumberOfSentence);
+                length = Int32.Parse(inputLength);
+
+                IEnumerable sentences = text.Lines.SelectMany(l => l.AllSentencesAsEnumerable());
+
+                int i = 0;
+                foreach (Sentence sentence in sentences)
+                {
+                    if (i == numberOfSentence)
+                    {
+                        IEnumerable<ISentenceItem> sentenceItems = sentence.AllSentenceItemsAsEnumerable();
+
+                        foreach (ISentenceItem item in sentenceItems)
+                        {
+                            if (item.GetLength() == length && item.GetType() == typeof(Word))
+                            {
+                                resultingSentence.AddSentenceItemsRange(replacement.AllSentenceItemsAsEnumerable());
+                            }
+                            else
+                            {
+                                resultingSentence.AddSentenceItem(item);
+                            }
+                        }
+
+                        break;
+                    }
+
+                    i++;
+                }
+;
+                Console.WriteLine("Words with length {0} were replaced with given string", length);
             }
             catch (SystemException exception)
             {
